@@ -26,7 +26,9 @@ function Uploadpost() {
   const [category, setCategory] = useState("");
   const [coverImage, setCoverImage] = useState("");
   const [userId, setUserId] = useState(null);
+  const [imageId, setImageId] = useState("");
   const navigate = useNavigate();
+
   useEffect(() => {
     const getCurrentUser = async () => {
       try {
@@ -39,11 +41,13 @@ function Uploadpost() {
 
     getCurrentUser();
   });
+
   const log = () => {
     if (editorRef.current) {
       console.log(editorRef.current.getContent());
     }
   };
+
   useEffect(() => {
     if (id) {
       const fatchData = async () => {
@@ -53,6 +57,7 @@ function Uploadpost() {
             "65b34045850ba70f6fec",
             id
           );
+
           if (postData) {
             setTitle(postData.title);
             setSummary(postData.summary);
@@ -61,6 +66,8 @@ function Uploadpost() {
             setAuthor(postData.author);
             setCategory(postData.category);
             setCoverImage(postData.image);
+            setImageId(postData.imageId);
+
             if (editorRef.current) {
               editorRef.current.setContent(postData.content);
             }
@@ -72,6 +79,7 @@ function Uploadpost() {
       fatchData();
     }
   }, [id]);
+
   const handleUploadPost = async () => {
     if (editorRef.current) {
       const editorContent = editorRef.current.getContent();
@@ -86,17 +94,62 @@ function Uploadpost() {
         category,
         coverImage,
       };
-      handlePostData(
-        postData.title,
-        postData.summary,
-        postData.mainBody,
-        postData.publish,
-        postData.author,
-        postData.category,
-        postData.coverImage
-      );
+
+      if (id) {
+        if (coverImage instanceof File) {
+          const deleteImage = await storage.deleteFile(
+            "65b4c5c0bbec74de98e3",
+            imageId
+          );
+
+          const uploadImage = await storage.createFile(
+            "65b4c5c0bbec74de98e3",
+            ID.unique(),
+            coverImage
+          );
+
+          const previewImage = await storage.getFilePreview(
+            "65b4c5c0bbec74de98e3",
+            uploadImage.$id
+          );
+
+          await handleUpdatePost(
+            id,
+            postData.title,
+            postData.summary,
+            postData.mainBody,
+            postData.publish,
+            postData.author,
+            postData.category,
+            previewImage.href,
+            uploadImage.$id
+          );
+        } else {
+          handleUpdatePost(
+            id,
+            postData.title,
+            postData.summary,
+            postData.mainBody,
+            postData.publish,
+            postData.author,
+            postData.category,
+            postData.coverImage
+          );
+        }
+      } else {
+        handlePostData(
+          postData.title,
+          postData.summary,
+          postData.mainBody,
+          postData.publish,
+          postData.author,
+          postData.category,
+          postData.coverImage
+        );
+      }
     }
   };
+
   const handlePostData = async (title, sum, main, pub, auth, cate, img) => {
     const imageUpload = await storage.createFile(
       "65b4c5c0bbec74de98e3",
@@ -123,13 +176,48 @@ function Uploadpost() {
           publish: pub,
           image: imageFile.href,
           userid: userId,
+          imageId: imageUpload.$id,
         }
       );
-      navigate("/");
+      navigate("/profile");
     } catch (error) {
       console.log("not uploaded on database", error);
     }
   };
+
+  const handleUpdatePost = async (
+    postId,
+    title,
+    sum,
+    main,
+    pub,
+    auth,
+    cate,
+    img,
+    imgid
+  ) => {
+    try {
+      const updatedData = await database.updateDocument(
+        "65b340358ea3657276f8",
+        "65b34045850ba70f6fec",
+        postId,
+        {
+          title,
+          content: main,
+          summary: sum,
+          category: cate,
+          author: auth,
+          publish: pub,
+          image: img,
+          imageId: imgid,
+        }
+      );
+      navigate("/profile");
+    } catch (error) {
+      console.log("upadting ", error);
+    }
+  };
+
   return (
     <div className="bg-[rgb(234,237,241)] font-sans">
       <div className="w-full flex justify-center items-center bg-[url(https://static.wixstatic.com/media/5bfb6f_26f1a5c736e544e09c63c82a4c792645~mv2_d_3839_1306_s_2.jpg/v1/fill/w_1517,h_653,al_b,q_85,usm_0.66_1.00_0.01,enc_auto/5bfb6f_26f1a5c736e544e09c63c82a4c792645~mv2_d_3839_1306_s_2.jpg)] h-[200px] object-cover bg-no-repeat bg-center">
