@@ -1,73 +1,61 @@
-import React, { useEffect } from "react";
-
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import React, { useEffect, useState  } from "react";
 import { database } from "../Appwrite/auth";
-
 import { Query } from "appwrite";
+import { useNavigate } from "react-router-dom";
+import Skeleton from "@mui/material/Skeleton";
 
 function Post() {
-  const loadData = async () =>{
-    try {
-      const data = await database.listDocuments('65b340358ea3657276f8', '65b34045850ba70f6fec')
-      
-    } catch (error) {
-      console.log("no data found or check the database",error)
-    }
-  }
+  const [allPost, setAllPost] = useState(null)
+  const navigate = useNavigate();
   useEffect(()=>{
-    loadData();
-  })
+    const fatchAllPost =async ()=>{
+      try {
+        const getPost =await database.listDocuments("65b340358ea3657276f8","65b34045850ba70f6fec");
+        console.log(getPost)
+        setAllPost(getPost.documents.reverse())
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fatchAllPost();
+  },[])
+
+  const formatDate = (timestamp) => {
+    const options = { day: "numeric", month: "short", year: "numeric" };
+    return new Date(timestamp).toLocaleDateString(undefined, options);
+  };
+
+  const handleSinglePost = ($id) => {
+    navigate(`/singlePost/${$id}`)
+  }
+
   return (
    
-    <div className="flex flex-col items-center mt-20 gap-10">
-      <Card sx={{ maxWidth: 750 }}>
-        <CardHeader
-          avatar={
-            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-              R
-            </Avatar>
-          }
-          action={
-            <IconButton aria-label="settings">
-              <MoreVertIcon />
-            </IconButton>
-          }
-          title="Shrimp and Chorizo Paella"
-          subheader="September 14, 2016"
-        />
-        <CardMedia
-          component="img"
-          height="194"
-          image="https://static.wixstatic.com/media/ae5901bd4fda41009c4cc4a19bb70d05.jpg/v1/fill/w_1018,h_678,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/ae5901bd4fda41009c4cc4a19bb70d05.jpg"
-          alt="Paella dish"
-        />
-        <CardContent>
-          <Typography variant="body2" color="text.secondary">
-            This impressive paella is a perfect party dish and a fun meal to
-            cook together with your guests. Add 1 cup of frozen peas along with
-            the mussels, if you like.
-          </Typography>
-        </CardContent>
-        <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
-          </IconButton>
-          <IconButton aria-label="share">
-            <ShareIcon />
-          </IconButton>
-        </CardActions>
-      </Card>
+    <div className="flex flex-col items-center mt-40 gap-10">
+      {
+        allPost ? allPost.map((cur,i)=>
+        <div key={i} className="w-full max-w-[700px] bg-transparent text-black overflow-hidden border border-gray-300">
+        <div className="w-full h-[500px] object-cover" onClick={()=>handleSinglePost(cur.$id)}>
+          <img src={cur.image} alt="" className="w-full h-full object-cover"/>
+        </div>
+        <div className="py-3  mt-3 px-10">
+          <div className="flex gap-4 font-semibold items-center">
+              <div className="w-[40px] aspect-square object-cover flex justify-center items-center bg-orange-400 text-white font-bold rounded-full text-xl">
+                R
+              </div>
+              <div className="leading-none">
+              <p>dsjfvl</p>
+              <p className="text-black mt-[5px] text-sm opacity-90">{formatDate(cur.$createdAt)}</p>
+              </div>
+          </div>
+          <div className="mt-4">
+          <h2 className="text-2xl font-bold mt-[5px]">{cur.title}</h2>
+          <p className="text-lg text-black mt-[10px]">{cur.summary}</p>
+          </div>
+        </div>
+      </div>
+        ) :  <Skeleton variant="rectangular" width={700} height={900} />
+      }
      
     </div>
   );

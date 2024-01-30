@@ -49,7 +49,7 @@ function Header() {
         setUserId(userDetail.$id)
         setCurrentUser(userDetail.name.charAt(0).toUpperCase());
       } catch (error) {
-        navigate("/login");
+        // navigate("/login");
         console.log(error);
       }
     };
