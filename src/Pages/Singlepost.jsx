@@ -51,8 +51,8 @@ function Singlepost() {
           </div>
           <p className="text-2xl font-bold mt-10">{blogData.title}</p>
           <p className="mt-4 text-xl font-semibold">{blogData.summary}</p>
-          <div className="mt-8">
-          <img src={blogData.image} alt="" />
+          <div className="mt-8 w-full">
+          <img src={blogData.image} alt="" className="w-full max-w--[100%]"/>
           </div>
           <p className="mt-8 text-xl text-left">{parse(blogData.content)}</p>
 

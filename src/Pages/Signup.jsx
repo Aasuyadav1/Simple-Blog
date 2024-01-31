@@ -46,6 +46,8 @@ export default function SignUp() {
    }else{
     try {
         const dataCreate = await account.create(ID.unique(),email, password, fname);
+        await account.createEmailSession(email,password)
+
         navigate("/");
     } catch (error) {
         console.log(error)
