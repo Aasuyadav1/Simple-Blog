@@ -32,16 +32,20 @@ function Singlepost() {
     return new Date(timestamp).toLocaleDateString(undefined, options);
   };
 
+  const formatUsername = (username) => {
+    return username.charAt(0).toUpperCase() + username.slice(1).toLowerCase();
+  };
+
   return (
     <div className="w-full  mt-4 flex  justify-center gap-4">
       {blogData ? (
         <div className="w-full max-w-[900px] border border-gray-300 overflow-hidden py-4 px-8 rounded-md">
           <div className="flex gap-4 font-semibold items-center">
-              <div className="w-[40px] aspect-square object-cover flex justify-center items-center bg-orange-400 text-white font-bold rounded-full text-xl">
-                R
+          <div className="w-[40px] aspect-square object-cover flex justify-center items-center bg-orange-400 text-white font-bold rounded-full text-xl">
+              {blogData.username.charAt(0).toUpperCase()}
               </div>
               <div className="leading-none">
-              <p>dsjfvl</p>
+              <p>{formatUsername(blogData.username)}</p>
               <p className="text-black mt-[5px] text-sm opacity-90">{formatDate(blogData.$createdAt)}</p>
               </div>
           </div>

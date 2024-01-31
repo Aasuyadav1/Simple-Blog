@@ -29,6 +29,11 @@ function Post() {
     navigate(`/singlePost/${$id}`)
   }
 
+  const formatUsername = (username) => {
+    return username.charAt(0).toUpperCase() + username.slice(1).toLowerCase();
+  };
+
+
   return (
    
     <div className="flex flex-col items-center mt-40 gap-10">
@@ -41,10 +46,10 @@ function Post() {
         <div className="py-3  mt-3 px-10">
           <div className="flex gap-4 font-semibold items-center">
               <div className="w-[40px] aspect-square object-cover flex justify-center items-center bg-orange-400 text-white font-bold rounded-full text-xl">
-                R
+              {cur.username.charAt(0).toUpperCase()}
               </div>
               <div className="leading-none">
-              <p>dsjfvl</p>
+              <p>{formatUsername(cur.username)}</p>
               <p className="text-black mt-[5px] text-sm opacity-90">{formatDate(cur.$createdAt)}</p>
               </div>
           </div>

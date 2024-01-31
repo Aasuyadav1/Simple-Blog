@@ -27,12 +27,14 @@ function Uploadpost() {
   const [coverImage, setCoverImage] = useState("");
   const [userId, setUserId] = useState(null);
   const [imageId, setImageId] = useState("");
+  const [userName, setUserName]= useState("")
   const navigate = useNavigate();
 
   useEffect(() => {
     const getCurrentUser = async () => {
       try {
         const userDetail = await account.get();
+        setUserName(userDetail.name)
         setUserId(userDetail.$id);
       } catch (error) {
         console.log(error);
@@ -144,13 +146,14 @@ function Uploadpost() {
           postData.publish,
           postData.author,
           postData.category,
-          postData.coverImage
+          postData.coverImage,
+          userName
         );
       }
     }
   };
 
-  const handlePostData = async (title, sum, main, pub, auth, cate, img) => {
+  const handlePostData = async (title, sum, main, pub, auth, cate, img, username) => {
     const imageUpload = await storage.createFile(
       "65b4c5c0bbec74de98e3",
       "unique()",
@@ -177,9 +180,11 @@ function Uploadpost() {
           image: imageFile.href,
           userid: userId,
           imageId: imageUpload.$id,
+          username : userName
         }
       );
       navigate("/profile");
+      window.location.reload();
     } catch (error) {
       console.log("not uploaded on database", error);
     }
@@ -213,6 +218,7 @@ function Uploadpost() {
         }
       );
       navigate("/profile");
+      window.location.reload();
     } catch (error) {
       console.log("upadting ", error);
     }

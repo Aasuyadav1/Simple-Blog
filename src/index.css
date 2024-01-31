@@ -4,8 +4,8 @@
 body{
   font-family: 'Roboto', sans-serif;
 overflow-x:hidden;
-background: rgb(239,237,239);
-background: linear-gradient(90deg, rgba(239,237,239,1) 0%, rgba(236,237,245,1) 53%, rgba(242,242,242,1) 100%);
+background: rgb(255,255,255);
+
  
 }
 *{

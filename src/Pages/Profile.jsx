@@ -95,7 +95,7 @@ function Profile() {
     };
 
     fetchData();
-  }, [userData, deleteHandle]);
+  }, [userData, deleteHandle,navigate]);
 
   const handleOpen = ($id) => {
     setDeleteId($id);
