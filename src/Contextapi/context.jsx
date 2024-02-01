@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { account } from "../Appwrite/auth";
 import { useNavigate } from "react-router-dom";
 import { database } from "../Appwrite/auth";
+import { useParams } from "react-router-dom";
 
 
 export const userContext = createContext();
@@ -11,6 +12,7 @@ const UserContextProvide = ({children})=>{
 
     const [userData, setUserData] = useState()
     const [blogs, setBlogs] = useState([])
+    const {url} = useParams()
    
     useEffect(() => {
         const getCurrentUser = async () => {
@@ -38,7 +40,7 @@ const UserContextProvide = ({children})=>{
           }
         }
         fatchAllPost();
-      },[])
+      },[url])
 
     return(
         <userContext.Provider value={{userData, blogs, setBlogs}}>

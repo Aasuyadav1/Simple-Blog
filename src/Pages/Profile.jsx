@@ -23,18 +23,13 @@ function Profile() {
   const [blogData, setBlogData] = useState([]);
   const [userId, setUserId] = useState();
   const { userData } = useContext(userContext);
-  const [favourite, setFavourite] = useState(false);
+  
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [deleteId, setDeleteId] = useState(null);
 
-  const handleFavourite = ($id) => {
-    setFavourite((prevMap) => ({
-      ...prevMap,
-      [$id]: !prevMap[$id],
-    }));
-  };
+  
 
   const handleEdit = ($id) => {
     navigate(`/uploadpost/${$id}`);
@@ -109,7 +104,10 @@ function Profile() {
 
 
   return (
-   <>
+   <div className="h-full w-full">
+    <div className="w-full flex justify-center items-center bg-[url(https://static.wixstatic.com/media/5bfb6f_26f1a5c736e544e09c63c82a4c792645~mv2_d_3839_1306_s_2.jpg/v1/fill/w_1517,h_653,al_b,q_85,usm_0.66_1.00_0.01,enc_auto/5bfb6f_26f1a5c736e544e09c63c82a4c792645~mv2_d_3839_1306_s_2.jpg)] h-[200px] object-cover bg-no-repeat bg-center">
+        <h1 className="text-4xl text-white">Profile</h1>
+      </div>
    {
     isLoading ?  <Progress
     size="sm"
@@ -158,7 +156,7 @@ function Profile() {
         </div>
       ) : blogData.length > 0 ? (
         blogData.map((cur, i) => (
-          <Card sx={{ maxWidth: 300 }} key={i}>
+          <Card sx={{ maxWidth: 300 }} className="mt-10" key={i}>
             <CardMedia
               component="img"
               image={cur.image}
@@ -180,9 +178,7 @@ function Profile() {
                 aria-label="add to favorites"
                 onClick={() => handleFavourite(cur.$id)}
               >
-                <FavoriteIcon
-                  color={favourite[cur.$id] ? "warning" : "action"}
-                />
+               
               </IconButton>
               <div>
                 <IconButton onClick={() => handleEdit(cur.$id)}>
@@ -201,7 +197,7 @@ function Profile() {
         </div>
       )}
     </div>
-    </>
+    </div>
   );
 }
 

@@ -15,6 +15,7 @@ import News from "./Pages/News";
 import Travel from "./Pages/Travel";
 import Footer from "./Pages/Footer";
 import Scrolltop from "./Pages/Scrolltop";
+import Singleuser from "./Pages/Singleuser";
 function App() {
  
 
@@ -34,6 +35,7 @@ function App() {
         <Route path="/sports" element={<Sports/>} />
         <Route path="/news" element={<News/>} />
         <Route path="/singlePost/:id" element={<Singlepost/>}/>
+        <Route path="/singleuser/:id" element={<Singleuser/>} />
       </Routes>
       <Footer/>
       </UserContextProvide>

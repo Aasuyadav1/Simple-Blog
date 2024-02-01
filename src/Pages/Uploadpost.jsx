@@ -29,6 +29,9 @@ function Uploadpost() {
   const [imageId, setImageId] = useState("");
   const [userName, setUserName]= useState("")
   const navigate = useNavigate();
+  const [previewImage, setPreviewImage] = useState("");
+
+  
 
   useEffect(() => {
     const getCurrentUser = async () => {
@@ -49,6 +52,21 @@ function Uploadpost() {
       console.log(editorRef.current.getContent());
     }
   };
+
+  const handleCoverImageChange = (e) => {
+    const selectedImage = e.target.files[0];
+    setCoverImage(selectedImage);
+  
+    // Display the preview of the selected image
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreviewImage(reader.result);
+    };
+    if (selectedImage) {
+      reader.readAsDataURL(selectedImage);
+    }
+  };
+  
 
   useEffect(() => {
     if (id) {
@@ -187,6 +205,7 @@ function Uploadpost() {
       window.location.reload();
     } catch (error) {
       console.log("not uploaded on database", error);
+      alert(" title & summary & author name can not more than 250 char and blog-content not more than 5000 characters  or fields can not be blank")
     }
   };
 
@@ -221,6 +240,7 @@ function Uploadpost() {
       window.location.reload();
     } catch (error) {
       console.log("upadting ", error);
+      alert(" title & summary & author name can not more than 250 char and blog-content not more than 5000 characters  or fields can not be blank")
     }
   };
 
@@ -243,6 +263,7 @@ function Uploadpost() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
+            <p className="text-red-400 text-sm">Note - characters can not be more than 250</p>
           </div>
           <div className="bg-white rounded-xl mt-5 w-full px-4 py-4">
             <h3 className="text-lg font-medium">Content</h3>
@@ -259,6 +280,7 @@ function Uploadpost() {
                 value={summary}
                 onChange={(e) => setSummary(e.target.value)}
               />
+              <p className="text-red-400 text-sm">Note - characters can not be more than 250</p>
             </div>
             <div className=" w-full mt-6">
               <h3 className="text-lg font-medium mb-4">Main Body</h3>
@@ -286,7 +308,7 @@ function Uploadpost() {
                     "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                 }}
               />
-              <button onClick={log}>Log editor content</button>
+             <p className="text-red-400 text-sm">Note - characters can not be more than 5000</p>
             </div>
           </div>
         </div>
@@ -324,6 +346,7 @@ function Uploadpost() {
               value={author}
               onChange={(e) => setAuthor(e.target.value)}
             />
+            <p className="text-red-400 text-sm">Note - characters can not be more than 250</p>
             <div className="mt-4">
               <h3 className="text-lg font-medium">
                 include in a blog category
@@ -357,7 +380,7 @@ function Uploadpost() {
           <div className="bg-white rounded-xl mt-5 w-full px-4 py-4">
             <h3 className="text-lg font-medium">Cover image</h3>
             <p className="text-sm">
-              Spports uploads of JPG, PNG, WEBP and GIF image with the maximum 4
+              Spports uploads of JPG, PNG image with the maximum 4
               mb
             </p>
             <div className="mt-4">
@@ -366,13 +389,25 @@ function Uploadpost() {
                 name=""
                 id="files"
                 className="hidden"
-                onChange={(e) => setCoverImage(e.target.files[0])}
+                onChange={handleCoverImageChange}
               />
-              <label htmlFor="files">
-                <div className="w-full aspect-[2/1] flex flex-col justify-center items-center text-[rgb(71,79,95)] cursor-pointer border-2 border-dashed rounded-md ">
-                  <IoIosAdd className="text-6xl text-[rgb(71,79,95)]" />
-                  <p>Add image</p>
+             <label htmlFor="files" className="cursor-pointer">
+      <div className="w-full aspect-[2/1] flex flex-col justify-center items-center text-[rgb(71,79,95)] border-2 border-dashed rounded-md">
+        {previewImage ? (
+          <img
+            src={previewImage}
+            alt="Cover Preview"
+            className="max-w-[300px]  h-full object-cover rounded-md"
+          />
+        ) : (
+          <>
+            <IoIosAdd className="text-6xl text-[rgb(71,79,95)]" />
+            <p>Add image</p>
+          </>
+        )}
+        
                 </div>
+                <p className="text-red-400 text-sm mt-3">Note - AVIF file is not supported</p>
               </label>
             </div>
           </div>
