@@ -229,7 +229,7 @@ function Uploadpost() {
       <div className="w-full flex justify-center items-center bg-[url(https://static.wixstatic.com/media/5bfb6f_26f1a5c736e544e09c63c82a4c792645~mv2_d_3839_1306_s_2.jpg/v1/fill/w_1517,h_653,al_b,q_85,usm_0.66_1.00_0.01,enc_auto/5bfb6f_26f1a5c736e544e09c63c82a4c792645~mv2_d_3839_1306_s_2.jpg)] h-[200px] object-cover bg-no-repeat bg-center">
         <h1 className="text-4xl text-white">Upload Post</h1>
       </div>
-      <div className="px-4 flex gap-4">
+      <div className="px-4 flex lg:flex-nowrap flex-wrap gap-4">
         <div className="w-[1400px]">
           <div className="bg-white rounded-xl mt-5 w-full px-4 py-4">
             <label htmlFor="ti">

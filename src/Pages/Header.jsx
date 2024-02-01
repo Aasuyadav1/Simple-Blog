@@ -8,7 +8,10 @@ import Menu from "@mui/material/Menu";
 import IconButton from "@mui/material/IconButton";
 import MenuItem from "@mui/material/MenuItem";
 import Skeleton from '@mui/material/Skeleton';
+import { BiMenuAltLeft } from "react-icons/bi";
 import { NavLink } from "react-router-dom";
+import { IoMdClose } from "react-icons/io";
+import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
 
 function Header() {
   const navItems = [
@@ -60,6 +63,10 @@ function Header() {
     getCurrentUser();
   }, [navigate]);
 
+  const handleToggle = () => {
+    setToggle(!toggle);
+  };
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -68,6 +75,10 @@ function Header() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleTogglel = () => {
+    setToggle(false);
+  }
 
   const handlLogout = async () => {
     const logout = await account.deleteSessions();
@@ -83,57 +94,84 @@ function Header() {
 
   const handleProfile = () => {
     navigate("/profile");
+    window.location.reload();
   };
 
+  const [toggle, setToggle] = useState(false)
+
   return (
-    <div className="flex bg-[#F2F2F2] items-center py-1 justify-between px-40 gap-20 sticky w-screen top-0 left-0 z-50">
-      <div>
-        <ul className="flex gap-6">
-          {navItems.map((list) => (
-            <Link key={list.id}>
-              <NavLink to={`${list.path}`} className="cursor-pointer text-md text-[#626262] font-sans">
-                {list.list}
-              </NavLink>
-            </Link>
-          ))}
-        </ul>
+<div className="flex bg-[#F2F2F2] items-center py-1 justify-between px-2 lg:px-40 gap-2 md:gap-20 sticky w-screen top-0 left-0 z-50">
+      <Link to={'/'} className="hidden md:block">
+        <h2 className="text-2xl" style={{ fontFamily: 'Pacifico, cursive' }}>Emagica</h2>
+      </Link>
+      <div className="text-4xl block md:hidden">
+        <BiMenuAltLeft onClick={handleToggle} className={`${toggle ? 'hidden' : 'block'}`} />
+        <IoMdClose onClick={handleToggle} className={`${toggle ? 'block' : 'hidden'}`} />
       </div>
-      <div className="w-[100px] overflow-hidden">
-        {isLoggedIn ? (
-          <>
-            <IconButton onClick={handleClick}>
+      <div className="hidden md:flex md:flex-row md:space-x-6">
+        {navItems.map((item) => (
+          <div key={item.id}>
+            <NavLink
+              to={item.path}
+              
+              className="cursor-pointer text-md text-[#626262] font-sans"
+            >
+              {item.list}
+            </NavLink>
+          </div>
+        ))}
+      </div>
+      <Link to={'/'} className="block md:hidden" onClick={()=>handleTogglel()}>
+            <h2 className="text-2xl" style={{ fontFamily: 'Pacifico, cursive' }}>Emagica</h2>
+          </Link>
+      <div className="md:hidden">
+        <div className={`absolute flex flex-col gap-4 w-full px-3 py-4 top-12 left-0 bg-slate-100 ${toggle ? 'block' : 'hidden'}`}>
+          
+          {navItems.map((item) => (
+            <div key={item.id}>
+              <NavLink
+                onClick={()=>handleToggle()}
+                to={item.path}
+                className="cursor-pointer text-md text-[#626262] font-sans"
+              >
+                {item.list}
+              </NavLink>
+            </div>
+          ))}
+        </div>
+      </div>
+      {isLoggedIn ? (
+        <Dropdown>
+          <DropdownTrigger>
+            <Button onClick={handleTogglel} isIconOnly radius="full">
               <Avatar
                 sx={{ bgcolor: deepOrange[500] }}
-                alt="Remy Sharp"
-                src="/broken-image.jpg"
+                alt="User Avatar"
                 className="cursor-pointer"
               >
                 {currentUser}
               </Avatar>
-            </IconButton>
-            <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              MenuListProps={{
-                "aria-labelledby": "basic-button",
-              }}
-            >
-              <MenuItem onClick={handleProfile}>Profile</MenuItem>
-              <MenuItem onClick={handleUpload}>Upload Post</MenuItem>
-              <MenuItem onClick={handlLogout}>Logout</MenuItem>
-            </Menu>
-          </>
-        ) : (
-          <Link to="/login" className="cursor-pointer text-md text-[#626262] font-sans ">
-           
-           <button className="px-2 py-4">
-           Login
-           </button>
-          </Link>
-        )}
-      </div>
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu aria-label="User Actions">
+            <DropdownItem key="profile" onClick={handleProfile}>
+              Profile
+            </DropdownItem>
+            <DropdownItem key="upload" onClick={handleUpload}>
+              Upload Post
+            </DropdownItem>
+            <DropdownItem key="logout" className="text-danger" color="danger" onClick={handlLogout}>
+              Logout
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      ) : (
+        <Link to="/login" className="cursor-pointer text-md text-[#626262] font-sans ">
+          <Button color="primary" variant="bordered">
+            Login
+          </Button>
+        </Link>
+      )}
     </div>
   );
 }

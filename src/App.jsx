@@ -13,6 +13,8 @@ import Technology from "./Pages/Technology";
 import Sports from "./Pages/Sports";
 import News from "./Pages/News";
 import Travel from "./Pages/Travel";
+import Footer from "./Pages/Footer";
+import Scrolltop from "./Pages/Scrolltop";
 function App() {
  
 
@@ -20,6 +22,7 @@ function App() {
     <BrowserRouter>
     <UserContextProvide>
     <Header/>
+    <Scrolltop/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<SignUp />} />
@@ -32,6 +35,7 @@ function App() {
         <Route path="/news" element={<News/>} />
         <Route path="/singlePost/:id" element={<Singlepost/>}/>
       </Routes>
+      <Footer/>
       </UserContextProvide>
     </BrowserRouter>
   );

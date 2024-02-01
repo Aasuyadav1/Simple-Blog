@@ -40,8 +40,8 @@ function Singlepost() {
     <div className="w-full  mt-4 flex  justify-center gap-4">
       {blogData ? (
         <div className="w-full max-w-[900px] border border-gray-300 overflow-hidden py-4 px-8 rounded-md">
-          <div className="flex gap-4 font-semibold items-center">
-          <div className="w-[40px] aspect-square object-cover flex justify-center items-center bg-orange-400 text-white font-bold rounded-full text-xl">
+          <div className="flex gap-4 font-semibold items-start">
+              <div className="w-[40px] aspect-square object-cover flex justify-center items-center bg-orange-400 text-white font-bold rounded-full text-xl">
               {blogData.username.charAt(0).toUpperCase()}
               </div>
               <div className="leading-none">
@@ -54,8 +54,7 @@ function Singlepost() {
           <div className="mt-8 w-full">
           <img src={blogData.image} alt="" className="w-full max-w--[100%]"/>
           </div>
-          <p className="mt-8 text-xl text-left">{parse(blogData.content)}</p>
-
+          <div className="mt-8 text-xl text-left">{parse(blogData.content)}</div>
         </div>
       ) : <Skeleton variant="rectangular" width={900} height={900} />}
     </div>
