@@ -117,7 +117,7 @@ function Profile() {
     className="w-screen bg-transparent bg-white fixed top-0=10 z-30"
   /> : null
    }
-    <div className="flex gap-4 mt-2 px-4 py-1  flex-wrap">
+    <div className="flex gap-4 mt-2 px-4 py-1 sm:justify-start justify-center  flex-wrap">
       
       <Modal size="sm" isOpen={isOpen} onClose={onClose}>
         <ModalContent>

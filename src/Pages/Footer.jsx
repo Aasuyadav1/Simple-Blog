@@ -30,7 +30,7 @@ function Footer() {
         }
     ]
   return (
-    <footer className="text-gray-500  px-4 py-5 max-w-screen-2xl mx-auto mt-10 md:px-8">
+    <footer className="text-gray-500  px-4 py-5 max-w-screen-2xl mx-auto mt-20 md:px-8">
             <div className="max-w-lg sm:mx-auto sm:text-center">
             <Link to={'/'}>
       <h2 className="text-2xl font-bold" style={{fontFamily: 'Pacifico, cursive'}}>Emagica</h2>

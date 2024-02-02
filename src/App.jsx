@@ -3,7 +3,7 @@ import { useNavigate, BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import SignUp from "./Pages/Signup";
 import Login from "./Pages/Login";
-import { account } from "./Appwrite/auth";
+
 import Uploadpost from "./Pages/Uploadpost";
 import Header from "./Pages/Header";
 import Profile from "./Pages/Profile";
@@ -16,13 +16,36 @@ import Travel from "./Pages/Travel";
 import Footer from "./Pages/Footer";
 import Scrolltop from "./Pages/Scrolltop";
 import Singleuser from "./Pages/Singleuser";
+import Banner from "./Pages/Banner";
+import { account } from "./Appwrite/auth";
+
+import { useState } from "react";
 function App() {
+  const [isLogin, setIsLogin] = useState(false)
  
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      try {
+        const userDetail = await account.get();
+        if(userDetail){
+          setIsLogin(true)
+        }
+      } catch (error) {
+        setIsLogin(false)
+        console.log(error)
+      }
+    };
+
+    getCurrentUser();
+  }, []);
 
   return (
     <BrowserRouter>
     <UserContextProvide>
     <Header/>
+    {
+      isLogin ? null : <Banner/>
+    }
     <Scrolltop/>
       <Routes>
         <Route path="/" element={<Home />} />

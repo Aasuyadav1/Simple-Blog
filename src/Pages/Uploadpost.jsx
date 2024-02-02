@@ -261,6 +261,7 @@ function Uploadpost() {
               className="w-full bg-white px-2 border-[#D7DBE7] border-2 border-solid outline-none py-1 rounded-md text-sm mt-2"
               id="ti"
               value={title}
+              required
               onChange={(e) => setTitle(e.target.value)}
             />
             <p className="text-red-400 text-sm">Note - characters can not be more than 250</p>
@@ -274,6 +275,7 @@ function Uploadpost() {
               </label>
               <input
                 type="text"
+                required
                 placeholder="Publish a blog as New Product for newly relased products"
                 className="w-full bg-white px-2 border-[#D7DBE7] border-2 border-solid outline-none py-1 rounded-md text-sm mt-2"
                 id="sumr"
@@ -291,6 +293,7 @@ function Uploadpost() {
                   height: 400,
                   menubar: false,
                   resize: false,
+                 
                   plugins: [
                     "advlist autolink lists link image charmap print preview anchor",
                     "searchreplace visualblocks code fullscreen",
@@ -340,6 +343,7 @@ function Uploadpost() {
             </label>
             <input
               type="text"
+              required
               placeholder="Author name"
               className="w-full bg-white px-2 border-[#D7DBE7] border-2 border-solid outline-none py-1 rounded-md text-sm mt-2"
               id="authorname"
@@ -387,6 +391,7 @@ function Uploadpost() {
               <input
                 type="file"
                 name=""
+                required
                 id="files"
                 className="hidden"
                 onChange={handleCoverImageChange}
