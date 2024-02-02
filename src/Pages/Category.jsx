@@ -35,12 +35,12 @@ function Category() {
       
   return (
     <div className='mt-10'>
-        <p className='text-center text-xl '>Dive into a rich tapestry of articles spanning technology,</p>
-        <p className='text-center text-xl'> lifestyle, creativity, and more. Our content is thoughtfully curated to provide you with a spectrum of viewpoints and expertise.</p>
+        <p className='text-center text-xl px-2 '>Dive into a rich tapestry of articles spanning technology,</p>
+        <p className='text-center text-xl px-2'> lifestyle, creativity, and more. Our content is thoughtfully curated to provide you with a spectrum of viewpoints and expertise.</p>
         <div className='flex justify-center items-center w-full mt-28 gap-8 px-4 flex-wrap'>
             {
                 Category.map((cur,ind)=>
-                <div key={ind} className={`min-h-[250px] h-full aspect-[1.3/1] object-cover bg-no-repeat bg-center grayscale-[30%] cursor-pointer hover:grayscale-0 duration-700 transition-all ease-in-out flex justify-center items-center`}
+                <div key={ind} className={`max-w-[400px] h-[250px] w-full   object-cover bg-no-repeat bg-center grayscale-[30%] cursor-pointer hover:grayscale-0 duration-700 transition-all ease-in-out flex justify-center items-center`}
                 style={{ backgroundImage: `url(${cur.imageUrl})` }}>
                 <ThemeProvider theme={theme}>
                 <Link to={cur.path}>

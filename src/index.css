@@ -3,9 +3,8 @@
 @tailwind utilities;
 body{
   font-family: 'Roboto', sans-serif;
-overflow-x:hidden;
-background-color: #F8F8FF;
-
+  overflow-x: hidden;
+   background-color: #F8F8FF;
  
 }
 *{

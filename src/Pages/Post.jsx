@@ -38,7 +38,7 @@ function Post() {
 
   return (
     <div className="flex flex-col items-center mt-40 gap-10">
-      <div className="space-y-5 mb-20 sm:text-center sm:max-w-md sm:mx-auto">
+      <div className="space-y-5 px-2 mb-20 sm:text-center sm:max-w-md sm:mx-auto">
         <h1 className="text-gray-800 text-3xl font-extrabold sm:text-4xl">
           Latest blog posts
         </h1>
