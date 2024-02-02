@@ -87,6 +87,7 @@ function Uploadpost() {
             setCategory(postData.category);
             setCoverImage(postData.image);
             setImageId(postData.imageId);
+            setPreviewImage(postData.image);
 
             if (editorRef.current) {
               editorRef.current.setContent(postData.content);
@@ -132,7 +133,7 @@ function Uploadpost() {
             "65b4c5c0bbec74de98e3",
             uploadImage.$id
           );
-
+              
           await handleUpdatePost(
             id,
             postData.title,
