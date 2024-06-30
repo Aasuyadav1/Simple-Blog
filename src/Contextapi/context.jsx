@@ -1,7 +1,6 @@
 import { createContext, useState } from "react";
 import { useEffect } from "react";
 import { account } from "../Appwrite/auth";
-import { useNavigate } from "react-router-dom";
 import { database } from "../Appwrite/auth";
 import { useParams } from "react-router-dom";
 
@@ -31,9 +30,8 @@ const UserContextProvide = ({children})=>{
       useEffect(()=>{
         const fatchAllPost =async ()=>{
           try {
-            const getPost =await database.listDocuments("65b340358ea3657276f8","65b34045850ba70f6fec");
+            const getPost =await database.listDocuments(process.env.API_DATABASE_ID,process.env.API_COLLECTION_ID);
             setBlogs(getPost.documents.reverse())
-            
             
           } catch (error) {
             console.log(error)

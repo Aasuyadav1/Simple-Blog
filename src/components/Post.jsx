@@ -7,12 +7,13 @@ import Skeleton from "@mui/material/Skeleton";
 function Post() {
   const [allPost, setAllPost] = useState(null);
   const navigate = useNavigate();
+
   useEffect(() => {
     const fatchAllPost = async () => {
       try {
         const getPost = await database.listDocuments(
-          "65b340358ea3657276f8",
-          "65b34045850ba70f6fec"
+          process.env.API_DATABASE_ID,
+          process.env.API_COLLECTION_ID
         );
         console.log(getPost);
         setAllPost(getPost.documents.reverse());
@@ -45,9 +46,7 @@ function Post() {
         <p className="text-gray-600">
           Blogs that are loved by the community. Updated every hour.
         </p>
-        
       </div>
-
       {allPost ? (
         allPost.map((cur, i) => (
           <div key={i} className="max-w-[600px] w-full mt-4 rounded-md border">
@@ -81,7 +80,6 @@ function Post() {
                 <span className="mb-2  inline-block rounded-full bg-gray-100 px-3 py-1 text-[15px] font-semibold text-gray-500">
                   #{cur.category}
                 </span>
-                
               </div>
               <button
                 type="button"

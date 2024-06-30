@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
-import Hero from "./Hero";
-import Category from "./Category";
-import Post from "./Post";
-import Recentpost from "./Recentpost";
-import { database } from "../Appwrite/auth";
-import Company from "./Company";
+import Hero from "../components/Hero";
+import Post from "../components/Post";
+import Company from "../components/Company";
+import Category from "../components/Category";
 function Home() {
-  
   return (
     <div>
       <Hero />
       <Category />
-        <Post/>
-        <Company/>
-    
+      <Post />
+      <Company />
     </div>
   );
 }

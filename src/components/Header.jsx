@@ -1,44 +1,45 @@
 import React, { useState, useEffect } from "react";
 import { deepOrange } from "@mui/material/colors";
 import Avatar from "@mui/material/Avatar";
-import { IoIosSearch } from "react-icons/io";
 import { account } from "../Appwrite/auth";
 import { Link, useNavigate } from "react-router-dom";
-import Menu from "@mui/material/Menu";
-import IconButton from "@mui/material/IconButton";
-import MenuItem from "@mui/material/MenuItem";
-import Skeleton from '@mui/material/Skeleton';
 import { BiMenuAltLeft } from "react-icons/bi";
 import { NavLink } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
-import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Button,
+} from "@nextui-org/react";
 
 function Header() {
   const navItems = [
     {
       id: 1,
       list: "Home",
-      path: "/"
+      path: "/",
     },
     {
       id: 2,
       list: "Technology",
-      path: "/technology"
+      path: "/technology",
     },
     {
       id: 3,
       list: "Travel",
-      path: "/travel"
+      path: "/travel",
     },
     {
       id: 4,
       list: "Sports",
-      path: "/sports"
+      path: "/sports",
     },
     {
       id: 5,
       list: "News",
-      path: '/news'
+      path: "/news",
     },
   ];
 
@@ -78,7 +79,7 @@ function Header() {
 
   const handleTogglel = () => {
     setToggle(false);
-  }
+  };
 
   const handlLogout = async () => {
     const logout = await account.deleteSessions();
@@ -97,23 +98,30 @@ function Header() {
     window.location.reload();
   };
 
-  const [toggle, setToggle] = useState(false)
+  const [toggle, setToggle] = useState(false);
 
   return (
-<div className="flex bg-[#F2F2F2] items-center py-1 justify-between px-2 lg:px-40 gap-2 md:gap-20 sticky w-screen top-0 left-0 z-50">
-      <Link to={'/'} className="hidden md:block">
-        <h2 className="text-2xl" style={{ fontFamily: 'Pacifico, cursive' }}>Emagica</h2>
+    <div className="flex bg-[#F2F2F2] items-center py-1 justify-between px-2 lg:px-40 gap-2 md:gap-20 sticky w-screen top-0 left-0 z-50">
+      <Link to={"/"} className="hidden md:block">
+        <h2 className="text-2xl" style={{ fontFamily: "Pacifico, cursive" }}>
+          Emagica
+        </h2>
       </Link>
       <div className="text-4xl block md:hidden">
-        <BiMenuAltLeft onClick={handleToggle} className={`${toggle ? 'hidden' : 'block'}`} />
-        <IoMdClose onClick={handleToggle} className={`${toggle ? 'block' : 'hidden'}`} />
+        <BiMenuAltLeft
+          onClick={handleToggle}
+          className={`${toggle ? "hidden" : "block"}`}
+        />
+        <IoMdClose
+          onClick={handleToggle}
+          className={`${toggle ? "block" : "hidden"}`}
+        />
       </div>
       <div className="hidden md:flex md:flex-row md:space-x-6">
         {navItems.map((item) => (
           <div key={item.id}>
             <NavLink
               to={item.path}
-              
               className="cursor-pointer text-md text-[#626262] font-sans"
             >
               {item.list}
@@ -121,16 +129,25 @@ function Header() {
           </div>
         ))}
       </div>
-      <Link to={'/'} className="block md:hidden" onClick={()=>handleTogglel()}>
-            <h2 className="text-2xl" style={{ fontFamily: 'Pacifico, cursive' }}>Emagica</h2>
-          </Link>
+      <Link
+        to={"/"}
+        className="block md:hidden"
+        onClick={() => handleTogglel()}
+      >
+        <h2 className="text-2xl" style={{ fontFamily: "Pacifico, cursive" }}>
+          Emagica
+        </h2>
+      </Link>
       <div className="md:hidden">
-        <div className={`absolute flex flex-col gap-4 w-full px-3 py-4 top-12 left-0 bg-slate-100 ${toggle ? 'block' : 'hidden'}`}>
-          
+        <div
+          className={`absolute flex flex-col gap-4 w-full px-3 py-4 top-12 left-0 bg-slate-100 ${
+            toggle ? "block" : "hidden"
+          }`}
+        >
           {navItems.map((item) => (
             <div key={item.id}>
               <NavLink
-                onClick={()=>handleToggle()}
+                onClick={() => handleToggle()}
                 to={item.path}
                 className="cursor-pointer text-md text-[#626262] font-sans"
               >
@@ -160,13 +177,21 @@ function Header() {
             <DropdownItem key="upload" onClick={handleUpload}>
               Upload Post
             </DropdownItem>
-            <DropdownItem key="logout" className="text-danger" color="danger" onClick={handlLogout}>
+            <DropdownItem
+              key="logout"
+              className="text-danger"
+              color="danger"
+              onClick={handlLogout}
+            >
               Logout
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
       ) : (
-        <Link to="/login" className="cursor-pointer text-md text-[#626262] font-sans ">
+        <Link
+          to="/login"
+          className="cursor-pointer text-md text-[#626262] font-sans "
+        >
           <Button color="primary" variant="bordered">
             Login
           </Button>

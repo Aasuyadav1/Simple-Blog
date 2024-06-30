@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { userContext } from '../Contextapi/context';
 import { useContext } from 'react'
-import { Skeleton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 function Sports() {

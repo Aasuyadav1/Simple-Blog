@@ -5,7 +5,7 @@ import SignUp from "./Pages/Signup";
 import Login from "./Pages/Login";
 
 import Uploadpost from "./Pages/Uploadpost";
-import Header from "./Pages/Header";
+import Header from "./components/Header";
 import Profile from "./Pages/Profile";
 import UserContextProvide from "./Contextapi/context";
 import Singlepost from "./Pages/Singlepost";
@@ -13,13 +13,13 @@ import Technology from "./Pages/Technology";
 import Sports from "./Pages/Sports";
 import News from "./Pages/News";
 import Travel from "./Pages/Travel";
-import Footer from "./Pages/Footer";
-import Scrolltop from "./Pages/Scrolltop";
+import Footer from "./components/Footer";
+import Scrolltop from "./components/Scrolltop";
 import Singleuser from "./Pages/Singleuser";
-import Banner from "./Pages/Banner";
+import Banner from "./components/Banner";
 import { account } from "./Appwrite/auth";
-
 import { useState } from "react";
+
 function App() {
   const [isLogin, setIsLogin] = useState(false)
  

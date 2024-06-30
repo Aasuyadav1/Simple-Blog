@@ -14,8 +14,8 @@ function Singlepost() {
     const fetchData = async () => {
       try {
         const currentBlog = await database.getDocument(
-          "65b340358ea3657276f8",
-          "65b34045850ba70f6fec",
+          process.env.API_DATABASE_ID,
+          process.env.API_COLLECTION_ID,
           id
         );
 

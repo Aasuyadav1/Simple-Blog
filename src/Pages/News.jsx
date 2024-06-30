@@ -1,43 +1,42 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react';
-import { userContext } from '../Contextapi/context';
-import { useContext } from 'react'
-import { Skeleton } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { userContext } from "../Contextapi/context";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 function News() {
-    const {blogs, setblogs} = useContext(userContext);
-    const [techBlog, setTechBlog] = useState([]);
-    const navigate = useNavigate();
-    useEffect(()=>{
-        if(blogs){
-            console.log(blogs)
-            const filterByCategory = blogs.filter((cur)=>cur.category == "news");
-            setTechBlog(filterByCategory);
-        }
-    },[blogs])
+  const { blogs, setblogs } = useContext(userContext);
+  const [techBlog, setTechBlog] = useState([]);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (blogs) {
+      console.log(blogs);
+      const filterByCategory = blogs.filter((cur) => cur.category == "news");
+      setTechBlog(filterByCategory);
+    }
+  }, [blogs]);
 
-    const handleSinglePost = ($id) => {
-        navigate(`/singlePost/${$id}`)
-      }
+  const handleSinglePost = ($id) => {
+    navigate(`/singlePost/${$id}`);
+  };
 
-      const formatDate = (timestamp) => {
-        const options = { day: "numeric", month: "short", year: "numeric" };
-        return new Date(timestamp).toLocaleDateString(undefined, options);
-      };
+  const formatDate = (timestamp) => {
+    const options = { day: "numeric", month: "short", year: "numeric" };
+    return new Date(timestamp).toLocaleDateString(undefined, options);
+  };
 
-      const formatUsername = (username) => {
-        return username.charAt(0).toUpperCase() + username.slice(1).toLowerCase();
-      };
-    
+  const formatUsername = (username) => {
+    return username.charAt(0).toUpperCase() + username.slice(1).toLowerCase();
+  };
+
   return (
-    <div className='w-full flex justify-center flex-col gap-10 items-center'>
+    <div className="w-full flex justify-center flex-col gap-10 items-center">
       <div className="w-full flex justify-center items-center bg-[url(https://static.wixstatic.com/media/5bfb6f_26f1a5c736e544e09c63c82a4c792645~mv2_d_3839_1306_s_2.jpg/v1/fill/w_1517,h_653,al_b,q_85,usm_0.66_1.00_0.01,enc_auto/5bfb6f_26f1a5c736e544e09c63c82a4c792645~mv2_d_3839_1306_s_2.jpg)] h-[200px] object-cover bg-no-repeat bg-center">
         <h1 className="text-4xl text-white">News blog</h1>
       </div>
-           {
-            techBlog.length > 0 ?  techBlog.map((cur,i)=>
-            <div key={i} className="max-w-[600px] w-full mt-4 rounded-md border">
+      {techBlog.length > 0 ? (
+        techBlog.map((cur, i) => (
+          <div key={i} className="max-w-[600px] w-full mt-4 rounded-md border">
             <img
               src={cur.image}
               alt="Laptop"
@@ -84,10 +83,14 @@ function News() {
               </button>
             </div>
           </div>
-        ) :  <div className='text-xl h-52 w-full flex justify-center items-center'><span className='text-5xl'>&#128531;</span> !! Ops No Data Found</div>
-      }
+        ))
+      ) : (
+        <div className="text-xl h-52 w-full flex justify-center items-center">
+          <span className="text-5xl">&#128531;</span> !! Ops No Data Found
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
-export default News
+export default News;

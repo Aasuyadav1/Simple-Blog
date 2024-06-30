@@ -27,17 +27,15 @@ function Uploadpost() {
   const [coverImage, setCoverImage] = useState("");
   const [userId, setUserId] = useState(null);
   const [imageId, setImageId] = useState("");
-  const [userName, setUserName]= useState("")
+  const [userName, setUserName] = useState("");
   const navigate = useNavigate();
   const [previewImage, setPreviewImage] = useState("");
-
-  
 
   useEffect(() => {
     const getCurrentUser = async () => {
       try {
         const userDetail = await account.get();
-        setUserName(userDetail.name)
+        setUserName(userDetail.name);
         setUserId(userDetail.$id);
       } catch (error) {
         console.log(error);
@@ -56,7 +54,7 @@ function Uploadpost() {
   const handleCoverImageChange = (e) => {
     const selectedImage = e.target.files[0];
     setCoverImage(selectedImage);
-  
+
     // Display the preview of the selected image
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -66,15 +64,14 @@ function Uploadpost() {
       reader.readAsDataURL(selectedImage);
     }
   };
-  
 
   useEffect(() => {
     if (id) {
       const fatchData = async () => {
         try {
           const postData = await database.getDocument(
-            "65b340358ea3657276f8",
-            "65b34045850ba70f6fec",
+            process.env.API_DATABASE_ID,
+            process.env.API_COLLECTION_ID,
             id
           );
 
@@ -119,21 +116,21 @@ function Uploadpost() {
       if (id) {
         if (coverImage instanceof File) {
           const deleteImage = await storage.deleteFile(
-            "65b4c5c0bbec74de98e3",
+            process.env.API_BUCKET_ID,
             imageId
           );
 
           const uploadImage = await storage.createFile(
-            "65b4c5c0bbec74de98e3",
+            process.env.API_BUCKET_ID,
             ID.unique(),
             coverImage
           );
 
           const previewImage = await storage.getFilePreview(
-            "65b4c5c0bbec74de98e3",
+            process.env.API_BUCKET_ID,
             uploadImage.$id
           );
-              
+
           await handleUpdatePost(
             id,
             postData.title,
@@ -172,22 +169,31 @@ function Uploadpost() {
     }
   };
 
-  const handlePostData = async (title, sum, main, pub, auth, cate, img, username) => {
+  const handlePostData = async (
+    title,
+    sum,
+    main,
+    pub,
+    auth,
+    cate,
+    img,
+    username
+  ) => {
     const imageUpload = await storage.createFile(
-      "65b4c5c0bbec74de98e3",
+      process.env.API_BUCKET_ID,
       "unique()",
       img
     );
 
     const imageFile = await storage.getFilePreview(
-      "65b4c5c0bbec74de98e3",
+      process.env.API_BUCKET_ID,
       imageUpload.$id
     );
 
     try {
       const data = await database.createDocument(
-        "65b340358ea3657276f8",
-        "65b34045850ba70f6fec",
+        process.env.API_DATABASE_ID,
+        process.env.API_COLLECTION_ID,
         ID.unique(),
         {
           title,
@@ -199,14 +205,16 @@ function Uploadpost() {
           image: imageFile.href,
           userid: userId,
           imageId: imageUpload.$id,
-          username : userName
+          username: userName,
         }
       );
       navigate("/profile");
       window.location.reload();
     } catch (error) {
       console.log("not uploaded on database", error);
-      alert(" title & summary & author name can not more than 250 char and blog-content not more than 5000 characters  or fields can not be blank")
+      alert(
+        " title & summary & author name can not more than 250 char and blog-content not more than 5000 characters  or fields can not be blank"
+      );
     }
   };
 
@@ -223,8 +231,8 @@ function Uploadpost() {
   ) => {
     try {
       const updatedData = await database.updateDocument(
-        "65b340358ea3657276f8",
-        "65b34045850ba70f6fec",
+        process.env.API_DATABASE_ID,
+        process.env.API_COLLECTION_ID,
         postId,
         {
           title,
@@ -241,7 +249,9 @@ function Uploadpost() {
       window.location.reload();
     } catch (error) {
       console.log("upadting ", error);
-      alert(" title & summary & author name can not more than 250 char and blog-content not more than 5000 characters  or fields can not be blank")
+      alert(
+        " title & summary & author name can not more than 250 char and blog-content not more than 5000 characters  or fields can not be blank"
+      );
     }
   };
 
@@ -265,7 +275,9 @@ function Uploadpost() {
               required
               onChange={(e) => setTitle(e.target.value)}
             />
-            <p className="text-red-400 text-sm">Note - characters can not be more than 250</p>
+            <p className="text-red-400 text-sm">
+              Note - characters can not be more than 250
+            </p>
           </div>
           <div className="bg-white rounded-xl mt-5 w-full px-4 py-4">
             <h3 className="text-lg font-medium">Content</h3>
@@ -283,7 +295,9 @@ function Uploadpost() {
                 value={summary}
                 onChange={(e) => setSummary(e.target.value)}
               />
-              <p className="text-red-400 text-sm">Note - characters can not be more than 250</p>
+              <p className="text-red-400 text-sm">
+                Note - characters can not be more than 250
+              </p>
             </div>
             <div className=" w-full mt-6">
               <h3 className="text-lg font-medium mb-4">Main Body</h3>
@@ -294,7 +308,7 @@ function Uploadpost() {
                   height: 400,
                   menubar: false,
                   resize: false,
-                 
+
                   plugins: [
                     "advlist autolink lists link image charmap print preview anchor",
                     "searchreplace visualblocks code fullscreen",
@@ -312,7 +326,9 @@ function Uploadpost() {
                     "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                 }}
               />
-             <p className="text-red-400 text-sm">Note - characters can not be more than 5000</p>
+              <p className="text-red-400 text-sm">
+                Note - characters can not be more than 5000
+              </p>
             </div>
           </div>
         </div>
@@ -351,7 +367,9 @@ function Uploadpost() {
               value={author}
               onChange={(e) => setAuthor(e.target.value)}
             />
-            <p className="text-red-400 text-sm">Note - characters can not be more than 250</p>
+            <p className="text-red-400 text-sm">
+              Note - characters can not be more than 250
+            </p>
             <div className="mt-4">
               <h3 className="text-lg font-medium">
                 include in a blog category
@@ -385,8 +403,7 @@ function Uploadpost() {
           <div className="bg-white rounded-xl mt-5 w-full px-4 py-4">
             <h3 className="text-lg font-medium">Cover image</h3>
             <p className="text-sm">
-              Spports uploads of JPG, PNG image with the maximum 4
-              mb
+              Spports uploads of JPG, PNG image with the maximum 4 mb
             </p>
             <div className="mt-4">
               <input
@@ -397,23 +414,24 @@ function Uploadpost() {
                 className="hidden"
                 onChange={handleCoverImageChange}
               />
-             <label htmlFor="files" className="cursor-pointer">
-      <div className="w-full aspect-[2/1] flex flex-col justify-center items-center text-[rgb(71,79,95)] border-2 border-dashed rounded-md">
-        {previewImage ? (
-          <img
-            src={previewImage}
-            alt="Cover Preview"
-            className="max-w-[300px]  h-full object-cover rounded-md"
-          />
-        ) : (
-          <>
-            <IoIosAdd className="text-6xl text-[rgb(71,79,95)]" />
-            <p>Add image</p>
-          </>
-        )}
-        
+              <label htmlFor="files" className="cursor-pointer">
+                <div className="w-full aspect-[2/1] flex flex-col justify-center items-center text-[rgb(71,79,95)] border-2 border-dashed rounded-md">
+                  {previewImage ? (
+                    <img
+                      src={previewImage}
+                      alt="Cover Preview"
+                      className="max-w-[300px]  h-full object-cover rounded-md"
+                    />
+                  ) : (
+                    <>
+                      <IoIosAdd className="text-6xl text-[rgb(71,79,95)]" />
+                      <p>Add image</p>
+                    </>
+                  )}
                 </div>
-                <p className="text-red-400 text-sm mt-3">Note - AVIF file is not supported</p>
+                <p className="text-red-400 text-sm mt-3">
+                  Note - AVIF file is not supported
+                </p>
               </label>
             </div>
           </div>
